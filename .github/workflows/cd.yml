@@ -46,4 +46,8 @@ jobs:
       - name: Push to ghcr
         run: |
           package_registry_path="${{ env.REGISTRY }}/$(sed -nE 's/package wasco-dev:([a-z-]+)@([0-9]\.[0-9]\.[0-9]);/wasco-dev\/\1:\2/p' wit/world.wit)"
+          if wash oci pull "$package_registry_path" --output /dev/null 2>/dev/null; then
+            echo "::error::Version already exists in registry: $package_registry_path"
+            exit 1
+          fi
           wash oci push $package_registry_path target/wasm32-wasip2/release/*.wasm
