@@ -28,7 +28,7 @@ jobs:
       - name: Setup wash
         uses: wasmCloud/setup-wash-action@main
         with:
-          wash-version: wash-v2.0.0-rc.8
+          wash-version: v2.1.0
 
       - name: Fetch WIT dependencies
         run: echo "namespace_registries.wasco-dev = \"wasco.dev\"" | WKG_CONFIG_FILE="/dev/stdin" wash wit fetch
