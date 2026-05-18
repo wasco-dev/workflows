@@ -1,0 +1,42 @@
+on:
+  workflow_call:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  run-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: clippy, rustfmt
+          target: wasm32-wasip2
+          cache-directories: "**/target"
+          cache-all-crates: "true"
+
+      - name: Install wkg
+        run: |
+          curl -fsSL https://github.com/bytecodealliance/wasm-pkg-tools/releases/download/v0.15.0/wkg-x86_64-unknown-linux-gnu -o wkg
+          chmod +x wkg
+          mv wkg /usr/local/bin/
+
+      - name: Fetch WIT dependencies
+        run: echo "namespace_registries.wasco-dev = \"wasco.dev\"" | WKG_CONFIG_FILE="/dev/stdin" wkg wit fetch
+
+      - name: "formatting-check"
+        run: RUSTFLAGS="--deny warnings" cargo fmt
+
+      - name: "compile-check"
+        run: RUSTFLAGS="--deny warnings" cargo build --target=wasm32-wasip2 --release
+
+      - name: "quality-check"
+        run: RUSTFLAGS="--deny warnings" cargo clippy
+
+      - name: "test-check"
+        run: RUSTFLAGS="--deny warnings" cargo test
+
+      - name: "integration-tests"
+        run: just integration-test
