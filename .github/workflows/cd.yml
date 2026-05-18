@@ -6,7 +6,7 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  publish:
+  cd:
     runs-on: ubuntu-latest
 
     permissions:
