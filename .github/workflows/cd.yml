@@ -31,7 +31,11 @@ jobs:
           wash-version: v2.1.0
 
       - name: Fetch WIT dependencies
-        run: echo "namespace_registries.wasco-dev = \"wasco.dev\"" | WKG_CONFIG_FILE="/dev/stdin" wash wit fetch
+        run: |
+          WKG_CONFIG_FILE="/dev/stdin" wkg wit fetch <<'EOF'
+          namespace_registries.wasco-dev = "wasco.dev"
+          namespace_registries.wasi = "wasi.dev"
+          EOF
 
       - name: Build project
         run: cargo build --release --target wasm32-wasip2

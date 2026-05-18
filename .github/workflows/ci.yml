@@ -24,7 +24,11 @@ jobs:
           mv wkg /usr/local/bin/
 
       - name: Fetch WIT dependencies
-        run: echo "namespace_registries.wasco-dev = \"wasco.dev\"" | WKG_CONFIG_FILE="/dev/stdin" wkg wit fetch
+        run: |
+          WKG_CONFIG_FILE="/dev/stdin" wkg wit fetch <<'EOF'
+          namespace_registries.wasco-dev = "wasco.dev"
+          namespace_registries.wasi = "wasi.dev"
+          EOF
 
       - name: "formatting-check"
         run: RUSTFLAGS="--deny warnings" cargo fmt --check
