@@ -27,7 +27,7 @@ jobs:
         run: echo "namespace_registries.wasco-dev = \"wasco.dev\"" | WKG_CONFIG_FILE="/dev/stdin" wkg wit fetch
 
       - name: "formatting-check"
-        run: RUSTFLAGS="--deny warnings" cargo fmt
+        run: RUSTFLAGS="--deny warnings" cargo fmt --check
 
       - name: "compile-check"
         run: RUSTFLAGS="--deny warnings" cargo build --target=wasm32-wasip2
