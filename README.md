@@ -8,11 +8,8 @@ The CI pipeline runs quality checks on a Rust WebAssembly component. To use the 
 ```yaml
 on:
   pull_request:
-    paths:
-      - "**/*.toml"
-      - "**/*.lock"
-      - "**.rs"
-      - "**.wit"
+  push:
+    branches: ["main"]
 
 jobs:
   ci:
@@ -25,13 +22,9 @@ The CD pipeline updates the GitHub of a Rust WebAssembly component. To use the g
 **File:** `.github/workflows/cd.yml`
 ```yaml
 on:
+  workflow_dispatch:
   push:
     branches: ["main"]
-    paths:
-      - "**/*.toml"
-      - "**/*.lock"
-      - "**.rs"
-      - "**.wit"
 
 jobs:
   cd:
