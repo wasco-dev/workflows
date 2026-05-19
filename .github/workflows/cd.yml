@@ -32,7 +32,7 @@ jobs:
 
       - name: Fetch WIT dependencies
         run: |
-          WKG_CONFIG_FILE="/dev/stdin" wkg wit fetch <<'EOF'
+          WKG_CONFIG_FILE="/dev/stdin" wash wit fetch <<'EOF'
           namespace_registries.wasco-dev = "wasco.dev"
           namespace_registries.wasi = "wasi.dev"
           EOF
