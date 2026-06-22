@@ -8,6 +8,8 @@ The CI pipeline runs quality checks on a Rust WebAssembly component. To use the 
 ```yaml
 on:
   pull_request:
+  repository_dispatch:
+      types: ["workflows-updated"]
   push:
     branches: ["main"]
 
