@@ -17,7 +17,7 @@ jobs:
           cache-directories: "**/target"
           cache-all-crates: "true"
 
-      - uses: ./.github/actions/install-wkg
+      - uses: wasco-dev/workflows/.github/actions/install-wkg@main
 
       - name: Fetch WIT dependencies
         run: |
