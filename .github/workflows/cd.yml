@@ -75,7 +75,7 @@ jobs:
             echo "::error::Version already exists in registry: $package_registry_path"
             exit 1
           fi
-          wkg oci push $package_registry_path target/wasm32-wasip2/release/*.wasm
+          wkg oci push $package_registry_path target/*.wasm
 
   publish-azure:
     needs: [build]
