@@ -17,7 +17,7 @@ jobs:
 ```
 
 ## CD
-The CD pipeline updates the GitHub of a Rust WebAssembly component. To use the general CD pipeline, add this file to your repository.
+The CD pipeline pushes your Rust WebAssembly component to GitHub Container Registry and an Azure Registry. To use the general CD pipeline, add this file to your repository.
 
 **File:** `.github/workflows/cd.yml`
 ```yaml
@@ -35,4 +35,17 @@ jobs:
       attestations: write
       id-token: write
     secrets: inherit
+```
+
+## Actions
+### Install wkg
+You can install [wkg](https://github.com/bytecodealliance/wasm-pkg-tools) into your own pipeline jobs by using:
+```yaml
+- uses: wasco-dev/workflows/.github/actions/install-wkg@main
+```
+By default this uses version `0.15.0` of wkg from `https://github.com/bytecodealliance/wasm-pkg-tools/releases/download/v0.15.0/wkg-x86_64-unknown-linux-gnu`, this version can be changed like so:
+```yaml
+- uses: wasco-dev/workflows/.github/actions/install-wkg@main
+  with:
+    version: "0.16.0"
 ```
