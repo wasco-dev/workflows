@@ -1,0 +1,33 @@
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: wasco-dev
+
+      - name: Notify downstream repos
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          EXCLUSIONS: |
+            skills
+            wasco-dev
+            workflows
+        run: |
+          repos=$(gh api /orgs/wasco-dev/repos --paginate --jq '.[].name')
+          for repo in $repos; do
+            if echo "$EXCLUSIONS" | grep -qw "$repo"; then
+              continue
+            fi
+            gh api repos/wasco-dev/$repo/dispatches \
+              --method POST \
+              -f event_type=workflows-updated
+          done
